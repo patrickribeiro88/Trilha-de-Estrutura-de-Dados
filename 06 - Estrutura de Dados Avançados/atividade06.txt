@@ -1,0 +1,35 @@
+6. Aplicação de Árvores B em Banco de Dados: 
+○ Explique como uma árvore B pode ser usada para implementar um índice de 
+banco de dados. 
+○ Dado um cenário de banco de dados com milhões de registros, simule a 
+inserção e busca de registros usando uma árvore B e explique os benefícios 
+em termos de eficiência.
+
+1. Implementação de Índice com Árvore B
+
+Em um banco de dados, o índice funciona como o sumário de um livro. Em vez de ler a tabela inteira (Full Table Scan), o banco consulta a estrutura da Árvore B que você implementou.
+
+    ○ Chave vs. Dado: No seu código this.keys armazena apenas números. Em um índice real, cada "chave" no array é acompanhada por um ponteiro (um endereço de memória ou posição no disco) que aponta para onde a linha completa do registro (nome, CPF, endereço) está guardada.
+
+    ○ Nós como Páginas: Cada BTreeNode é mapeado para uma página de disco (geralmente 8KB). O banco de dados tenta ajustar o grau t para que um nó preencha exatamente uma página, maximizando a leitura de dados por cada operação de I/O.
+
+2. Simulação: Milhões de Registros
+Imagine um cenário com 10.000.000 de registros.
+
+A. Inserção (O benefício do splitChild)
+Ao inserir um novo registro (ex: ID 5.000.001):
+
+    1.O banco navega pelos níveis (geralmente apenas 3 ou 4).
+
+    2.Se o nó folha tiver espaço, a inserção é quase instantânea (apenas um push e sort no array local).
+
+    3.Eficiência: Diferente da AVL, que faria rotações em vários níveis, a Árvore B só altera o nó local. A árvore cresce para cima apenas quando a raiz se divide, mantendo o custo de escrita muito baixo e previsível.
+
+B.Busca (O benefício da "Baixa Altura")
+Para buscar o ID 9.876.543:
+
+    1.AVL: Você precisaria de cerca de 24 saltos (leituras de nós diferentes). Se cada nó for uma leitura de disco, o sistema fica lento.
+
+    2.Árvore B (Seu código): Com um grau $t$ alto, a altura será de apenas 3 ou 4 níveis.
+
+    3.Eficiência: Você encontra o registro com apenas 4 leituras de disco. Como o disco é a parte mais lenta do hardware, reduzir de 24 para 4 leituras representa um ganho de performance de 600%.

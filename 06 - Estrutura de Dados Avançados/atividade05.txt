@@ -1,0 +1,27 @@
+5. Análise de Desempenho: 
+○ Compare o desempenho de inserção e busca entre uma árvore B e uma 
+árvore AVL com o mesmo conjunto de dados. Qual delas oferece melhor 
+performance quando o conjunto de dados é muito grande? 
+○ Com base no comportamento da árvore B, explique por que ela é preferida 
+para sistemas de banco de dados em vez de árvores AVL ou Red-Black.
+
+1. Desempenho: Árvore B vs. AVL
+
+Embora ambas sejam $O(\log n)$, a Árvore B vence em grandes conjuntos de dados (Big Data).
+
+    ○ Busca: A AVL é uma árvore "magra e alta" (muitos níveis). Para 1 milhão de itens, são ~20 saltos de memória. Sua Árvore B é "achatada e larga"; com um grau $t$ alto, você resolve a mesma busca com apenas 3 ou 4 saltos.
+
+    ○ Inserção: No seu código, o splitChild divide nós apenas quando necessário. Na AVL, cada inserção pode exigir rotações complexas para manter o balanço rígido, o que gera mais processamento em estruturas grandes.
+
+Conclusão: A Árvore B oferece melhor performance em escala porque minimiza o acesso a novos nós (leituras de disco/SSD), que é o maior gargalo da computação.
+
+
+2. Por que a Árvore B é a preferida em Bancos de Dados?
+
+Baseado no comportamento dos métodos insertNonFull e splitChild do código:
+
+    ○ Eficiência de I/O: Bancos de dados leem dados em "páginas". Como seu BTreeNode agrupa várias chaves em arrays (this.keys), uma única leitura de disco traz centenas de índices de uma vez. Na AVL, você leria apenas um por vez.
+
+    ○ Uso de Cache: Percorrer o array interno de chaves (como no seu findKey) é muito mais rápido para a CPU do que seguir ponteiros de nós espalhados pela memória (comum na AVL).
+
+    ○ Buscas por Intervalo: No seu código de ArvoreBPlus, você implementou o ponteiro proximo. Isso permite que o banco de dados encontre um valor e "ande para o lado" para pegar os próximos, sem precisar subir e descer a árvore (o que a AVL exigiria).

@@ -1,4 +1,4 @@
-6. Aplicação de Árvores B em Banco de Dados: 
+6. Aplicação de Árvores B em Banco de Dados:
 ○ Explique como uma árvore B pode ser usada para implementar um índice de 
 banco de dados. 
 ○ Dado um cenário de banco de dados com milhões de registros, simule a 

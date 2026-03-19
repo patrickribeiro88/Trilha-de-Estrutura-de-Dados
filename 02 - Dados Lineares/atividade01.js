@@ -1,4 +1,4 @@
-/* 1. Vetores:
+/*1. Vetores:
 ○ Crie um vetor que armazene 10 números inteiros e desenvolva uma função para buscar um número específico no vetor.
 ○ Implemente uma função para remover um elemento do vetor em uma
 posição específica.*/
